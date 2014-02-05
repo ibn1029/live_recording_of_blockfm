@@ -15,5 +15,6 @@ if [ "X$1" == "X" ]; then
     exit 0
 fi
 
-cd ~/Work/Script/live_recording_of_blockfm
-carton exec perl record_blockfm.pl
+carton=$HOME/.plenv/shims/carton
+cd $HOME/Work/Script/live_recording_of_blockfm
+$carton exec perl record_blockfm.pl $1

@@ -4,7 +4,8 @@ use warnings;
 use Furl;
 use JSON;
 use File::Which;
-use FLV::AudioExtractor;
+#use FLV::AudioExtractor;
+#1use FLV::ToMP3;
 use Time::Piece;
 use Time::Seconds;
 use File::Copy;
@@ -60,12 +61,20 @@ warn $@ if $@;
 # flv->mp3変換
 #
 my $date = $t->ymd('').$t->hms('');
-my $ae = FLV::AudioExtractor->new(filename => 'blockfm.flv');
-$ae->extract("blockfm_$date.mp3");
+#my $ae = FLV::AudioExtractor->new(filename => 'blockfm.flv');
+#$ae->extract("blockfm_$date.mp3");
+#my $converter = FLV::ToMP3->new();
+#$converter->parse_flv('blockfm.flv');
+#$converter->save("blockfm_$date.mp3");
+my $ffmpeg = which('ffmpeg') || '/usr/local/bin/ffmpeg';
+$cmd = "$ffmpeg -i blockfm.flv -vn -acodec copy blockfm_$date.m4a";
+warn Dumper $cmd;
+eval { `$cmd` };
+warn $@ if $@;
 
 #
 # move dropbox
 #
-move "blockfm_$date.mp3", "/Users/viage/Dropbox/Private/BlockFM/blockfm_$date.mp3" or die $!;
+move "blockfm_$date.m4a", "/Users/viage/Dropbox/Private/BlockFM/blockfm_$date.m4a" or die $!;
 
 __END__
