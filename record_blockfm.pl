@@ -75,6 +75,9 @@ warn $@ if $@;
 #
 # move dropbox
 #
-move "blockfm_$date.m4a", "/Users/viage/Dropbox/Private/BlockFM/blockfm_$date.m4a" or die $!;
-
+if (`hostname` eq 'dti-vps-srv85' ) {
+    move "blockfm_$date.m4a", "/home/viage/Dropbox/Private/BlockFM/blockfm_$date.m4a" or die $!;
+} else {
+    move "blockfm_$date.m4a", "/Users/viage/Dropbox/Private/BlockFM/blockfm_$date.m4a" or die $!;
+}
 __END__

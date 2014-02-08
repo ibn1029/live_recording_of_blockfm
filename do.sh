@@ -16,5 +16,9 @@ if [ "X$1" == "X" ]; then
 fi
 
 carton=$HOME/.plenv/shims/carton
-cd $HOME/Work/Script/live_recording_of_blockfm
+if [ `hostname` == 'dti-vps-srv85' ]; then
+    cd $HOME/work/live_recording_of_blockfm
+else
+    cd $HOME/Work/Script/live_recording_of_blockfm
+fi
 $carton exec perl record_blockfm.pl $1
