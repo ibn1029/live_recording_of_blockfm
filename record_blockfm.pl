@@ -9,6 +9,7 @@ use File::Which;
 use Time::Piece;
 use Time::Seconds;
 use File::Copy;
+use Sys::Hostname 'hostname';
 
 use Data::Dumper;
 
@@ -75,7 +76,7 @@ warn $@ if $@;
 #
 # move dropbox
 #
-if (`hostname` eq 'dti-vps-srv85' ) {
+if ( hostname eq 'dti-vps-srv85' ) {
     move "blockfm_$date.m4a", "/home/viage/Dropbox/Private/BlockFM/blockfm_$date.m4a" or die $!;
 } else {
     move "blockfm_$date.m4a", "/Users/viage/Dropbox/Private/BlockFM/blockfm_$date.m4a" or die $!;
