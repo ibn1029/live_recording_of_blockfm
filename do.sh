@@ -2,6 +2,15 @@
 #set -e
 #set -x
 
+app=record_blockfm.pl
+app_dir=live_recording_of_blockfm
+if [ $MODE == 'production' ]; then
+    base=$HOME/work/$app_dir
+else
+    base=$HOME/Work/Script/$app_dir
+fi
+carton=$HOME/.plenv/shims/carton
+
 usage() {
     cat << _END_
 SYNOPSIS
@@ -15,10 +24,5 @@ if [ "X$1" == "X" ]; then
     exit 0
 fi
 
-carton=$HOME/.plenv/shims/carton
-if [ `hostname` == 'dti-vps-srv85' ]; then
-    cd $HOME/work/live_recording_of_blockfm
-else
-    cd $HOME/Work/Script/live_recording_of_blockfm
-fi
-$carton exec perl record_blockfm.pl $1
+cd $base
+$carton exec perl $app $1

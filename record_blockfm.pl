@@ -4,12 +4,9 @@ use warnings;
 use Furl;
 use JSON;
 use File::Which;
-#use FLV::AudioExtractor;
-#1use FLV::ToMP3;
 use Time::Piece;
 use Time::Seconds;
 use File::Copy;
-use Sys::Hostname 'hostname';
 
 use Data::Dumper;
 
@@ -62,11 +59,6 @@ warn $@ if $@;
 # flv->mp3変換
 #
 my $date = $t->ymd('').$t->hms('');
-#my $ae = FLV::AudioExtractor->new(filename => 'blockfm.flv');
-#$ae->extract("blockfm_$date.mp3");
-#my $converter = FLV::ToMP3->new();
-#$converter->parse_flv('blockfm.flv');
-#$converter->save("blockfm_$date.mp3");
 my $ffmpeg = which('ffmpeg') || '/usr/local/bin/ffmpeg';
 $cmd = "$ffmpeg -i blockfm.flv -vn -acodec copy blockfm_$date.m4a";
 warn Dumper $cmd;
@@ -76,7 +68,7 @@ warn $@ if $@;
 #
 # move dropbox
 #
-if ( hostname eq 'dti-vps-srv85' ) {
+if ( $ENV{MODE} eq 'production' ) {
     move "blockfm_$date.m4a", "/home/viage/Dropbox/Private/BlockFM/blockfm_$date.m4a" or die $!;
 } else {
     move "blockfm_$date.m4a", "/Users/viage/Dropbox/Private/BlockFM/blockfm_$date.m4a" or die $!;
